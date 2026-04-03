@@ -1,0 +1,51 @@
+cat > Jenkinsfile << 'EOF'
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building on branch: ${env.BRANCH_NAME}"
+                sh 'cat index.html'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo "Testing application..."
+                sh 'grep -q "My App" index.html || echo "No validation"'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'dev') {
+                        echo "🚀 Deploying to DEV environment"
+                        // yaha dev server ka IP daal
+                        // sh 'scp index.html user@dev-server:/var/www/html/'
+                    }
+                    else if (env.BRANCH_NAME == 'stage') {
+                        echo "🚀 Deploying to STAGE environment"
+                        // yaha stage server ka IP daal
+                    }
+                    else if (env.BRANCH_NAME == 'main') {
+                        input "⚠️ Deploy to PRODUCTION?"
+                        echo "🚀 Deploying to PRODUCTION"
+                        // yaha production server ka IP daal
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo "✅ Pipeline SUCCESS for ${env.BRANCH_NAME}"
+        }
+        failure {
+            echo "❌ Pipeline FAILED for ${env.BRANCH_NAME}"
+        }
+    }
+}
+EOF

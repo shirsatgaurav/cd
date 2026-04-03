@@ -1,0 +1,20 @@
+cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CD Project</title>
+</head>
+<body>
+    <h1>Welcome to CD Project</h1>
+    <p>Branch: <span id="branch"></span></p>
+    
+    <script>
+        // Detect branch from URL or local storage
+        const branch = window.location.hostname.includes('dev') ? 'DEV' :
+                       window.location.hostname.includes('stage') ? 'STAGE' :
+                       'PRODUCTION';
+        document.getElementById('branch').innerText = branch;
+    </script>
+</body>
+</html>
+EOF

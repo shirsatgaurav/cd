@@ -1,0 +1,19 @@
+cat > .gitignore << 'EOF'
+# Jenkins
+workspace/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Build
+dist/
+build/
+node_modules/
+EOF

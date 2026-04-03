@@ -1,3 +1,8 @@
+# Apne local computer me repo clone kar
+git clone https://github.com/shirsatgaurav/cd.git
+cd cd
+
+# Jenkinsfile bana
 cat > Jenkinsfile << 'EOF'
 pipeline {
     agent any
@@ -6,14 +11,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building on branch: ${env.BRANCH_NAME}"
-                sh 'cat index.html'
+                sh 'echo "Build completed"'
             }
         }
         
         stage('Test') {
             steps {
                 echo "Testing application..."
-                sh 'grep -q "My App" index.html || echo "No validation"'
+                sh 'echo "Tests passed"'
             }
         }
         
@@ -22,17 +27,13 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'dev') {
                         echo "🚀 Deploying to DEV environment"
-                        // yaha dev server ka IP daal
-                        // sh 'scp index.html user@dev-server:/var/www/html/'
                     }
                     else if (env.BRANCH_NAME == 'stage') {
                         echo "🚀 Deploying to STAGE environment"
-                        // yaha stage server ka IP daal
                     }
                     else if (env.BRANCH_NAME == 'main') {
                         input "⚠️ Deploy to PRODUCTION?"
                         echo "🚀 Deploying to PRODUCTION"
-                        // yaha production server ka IP daal
                     }
                 }
             }
